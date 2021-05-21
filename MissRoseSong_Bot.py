@@ -29,15 +29,16 @@ def time_to_seconds(time):
 ## Commands --------------------------------
 @bot.on_message(filters.command(['start']))
 def start(client, message):
-    darkprince = f'👋 Hello @{message.from_user.username}\n\n [😌🍀🤚](https://telegra.ph/file/86cc2e654b1157f12b94f.jpg)\n I\'m Rose, I can upload songs from YouTube. Type /a song name:'
+    darkprince = f'👋 Salam @{message.from_user.username}\n\n [😌🍀🤚]\n  Mən DrakulaSongBot,Sizə musiqileri Youtubeden rahat yükləməyinizə kömək edəcəm
+    . İstifadəsi /musiqi musiqi adı:'
     message.reply_text(
         text=darkprince, 
         quote=False,
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton('Owner🎸', url='https://t.me/mr_dark_prince'),
-                    InlineKeyboardButton('Source💿', url='https://github.com/Mr-Dark-Prince/MissRose')
+                    InlineKeyboardButton('Sahib🎸', url='https://t.me/TheDrakula'),
+                    InlineKeyboardButton('Mənbə💿', url='https://github.com/serxan22/drakulasongtelegram')
                 ]
             ]
         )
@@ -49,7 +50,7 @@ def a(client, message):
     for i in message.command[1:]:
         query += ' ' + str(i)
     print(query)
-    m = message.reply('🔎 Searching the song...')
+    m = message.reply('🔎 Musiqi axtarılır...')
     ydl_opts = {"format": "bestaudio[ext=m4a]"}
     try:
         results = []
@@ -83,17 +84,17 @@ def a(client, message):
             return
     except Exception as e:
         m.edit(
-            "✖️ Found Nothing. Sorry.\n\nTry another keywork or maybe spell it properly."
+            "✖️ Bagışlayın musiqini tapa bilmedim.."
         )
         print(str(e))
         return
-    m.edit("⏬ Downloading.")
+    m.edit("⏬ Yüklənir.")
     try:
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(link, download=False)
             audio_file = ydl.prepare_filename(info_dict)
             ydl.process_info(info_dict)
-        rep = f'🎧 **Title**: [{title[:35]}]({link})\n⏳ **Duration**: `{duration}`\n👁‍🗨 **Views**: `{views}`'
+        rep = f'🎧 **Başlıq**: [{title[:35]}]({link})\n⏳ **Müddət**: `{duration}`\n👁‍🗨 **Baxış**: `{views}`'
         secmul, dur, dur_arr = 1, 0, duration.split(':')
         for i in range(len(dur_arr)-1, -1, -1):
             dur += (int(dur_arr[i]) * secmul)
@@ -101,7 +102,7 @@ def a(client, message):
         message.reply_audio(audio_file, caption=rep, parse_mode='md',quote=False, title=title, duration=dur, thumb=thumb_name)
         m.delete()
     except Exception as e:
-        m.edit('❌ Error')
+        m.edit('❌ Xəta')
         print(e)
     try:
         os.remove(audio_file)
